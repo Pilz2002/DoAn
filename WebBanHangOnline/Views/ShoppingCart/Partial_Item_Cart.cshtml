@@ -1,0 +1,63 @@
+﻿@model IEnumerable<WebBanHangOnline.Models.ShoppingCartItem>
+@using WebBanHangOnline.Models.Common
+
+<table class="table">
+    <thead>
+        <tr class="text-center">
+            <th>STT</th>
+            <th>Tên sản phẩm</th>
+            <th>Danh mục</th>
+            <th>Ảnh sản phẩm</th>
+            <th>Giá</th>
+            <th width="100">Số lượng</th>
+            <th>Thành tiền</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            var i = 0;
+            var tongTien = decimal.Zero;
+            foreach (var item in Model)
+            {
+                tongTien += item.TotalPrice;
+                <tr class="text-center" id="trow_@item.ProductId">
+                    <td>@(i+1)</td>
+                    <td><a href="/chi-tiet/@item.Alias-@item.ProductId">@item.ProductName</a></td>
+                    <td>@item.CategoryName</td>
+                    <td><img src="@item.ProductImg" width="60" /></td>
+                    <td>@Common.FormatNumber(item.Price, 2)</td>
+                    <td><input type="number" value="@item.Quantity" class="form-control" id="quantity_@item.ProductId" /></td>
+                    <th>@Common.FormatNumber(item.TotalPrice, 2)</th>
+                    <td width="200">
+                        <a href="#" class="btn btn-sm btn-danger btnDelete" data-id="@item.ProductId">Xóa</a>
+                        <a href="#" class="btn btn-sm btn-success btnUpdate" data-id="@item.ProductId">Cập nhật</a>
+                    </td>
+                </tr>
+                i++;
+            }
+            <tr>
+                <th colspan="6" class="text-right">Tổng: </th>
+                <th class="text-center">@Common.FormatNumber(tongTien, 0)</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td colspan="5"></td>
+                <td class="text-center" colspan="2">
+                    <a href="#" class="btn btn-sm btn-danger btnDeleteAll">Xóa hết</a>
+                    <a href="/thanh-toan" class="btn btn-sm btn-success btnPay">Thanh toán</a>
+                </td>
+                <td></td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <th colspan="7">Giỏ hàng không có gì!!!</th>
+            </tr>
+        }
+
+    </tbody>
+</table>
+

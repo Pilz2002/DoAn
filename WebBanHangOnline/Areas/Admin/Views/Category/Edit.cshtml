@@ -55,6 +55,7 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     @Html.HiddenFor(x=>x.Id)
+                    @Html.HiddenFor(x=>x.CreatedDate)
                     <!-- your steps content here -->
                     <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
                         <div class="form-group">
@@ -83,8 +84,8 @@
                             @Html.TextAreaFor(x => x.SeoDescription, new { @class = "form-control" })
                         </div>
                         <div class="form-group">
-                            <a href="/Admin/Category" class="btn btn-danger">Quay lại</a>
                             <button type="submit" class="btn btn-primary">Submit</button>
+                            <a href="/Admin/Category" class="btn btn-danger">Quay lại</a>
                         </div>
                     </div>
                 }

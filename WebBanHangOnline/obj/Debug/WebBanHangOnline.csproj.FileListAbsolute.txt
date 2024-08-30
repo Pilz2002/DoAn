@@ -113,3 +113,16 @@ D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\obj\Debug\WebBanHangOnline.M
 D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\bin\CKFinder.dll
 D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\bin\CKFinder.pdb
 D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.update_v3.resources
+D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.updatev4.resources
+D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.update_v5.resources
+D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\bin\PagedList.dll
+D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\bin\PagedList.Mvc.dll
+D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\bin\PagedList.xml
+D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\bin\PagedList.Mvc.xml
+D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.update_alias.resources
+D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.delete_image_product.resources
+D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.add_image_product.resources
+D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.add_type_payment_order.resources
+D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.create_tbThongKe.resources
+D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\bin\Dapper.dll
+D:\workspace\DoAn\WebBanHangOnline\WebBanHangOnline\bin\Dapper.xml

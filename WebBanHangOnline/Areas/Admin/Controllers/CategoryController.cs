@@ -14,7 +14,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 		// GET: Admin/Category
 		public ActionResult Index()
 		{
-			var items = _db.Categories;
+			var items = _db.Categories.OrderByDescending(x => x.Id).ToList();
 			return View(items);
 		}
 
@@ -54,15 +54,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 				_db.Categories.Attach(model);
 				model.ModifiedDate = DateTime.Now;
 				model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
-				_db.Entry(model).Property(x => x.Title).IsModified = true;
-				_db.Entry(model).Property(x => x.Description).IsModified = true;
-				_db.Entry(model).Property(x => x.Alias).IsModified = true;
-				_db.Entry(model).Property(x => x.SeoDescription).IsModified = true;
-				_db.Entry(model).Property(x => x.SeoKeywords).IsModified = true;
-				_db.Entry(model).Property(x => x.SeoTitle).IsModified = true;
-				_db.Entry(model).Property(x => x.Position).IsModified = true;
-				_db.Entry(model).Property(x => x.ModifiedBy).IsModified = true;
-				_db.Entry(model).Property(x => x.ModifiedDate).IsModified = true;
+				_db.Entry(model).State = System.Data.Entity.EntityState.Modified;
 				_db.SaveChanges();
 				return RedirectToAction("Index");
 			}
@@ -80,6 +72,19 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 				return Json(new { success = true });
 			}
 			return Json(new { success = false });
+		}
+
+		public ActionResult IsActive(int Id)
+		{
+			var item = _db.Categories.Find(Id);
+			if (item != null)
+			{
+				item.IsActive = !item.IsActive;
+				_db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+				_db.SaveChanges();
+				return Json(new { success = true, isActive = item.IsActive });
+			}
+			return Json(new { success = false, isActive = item.IsActive });
 		}
 	}
 }

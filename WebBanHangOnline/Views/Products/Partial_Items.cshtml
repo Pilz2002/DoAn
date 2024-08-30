@@ -1,0 +1,47 @@
+﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var item in Model)
+    {
+        <!-- Product -->
+        var strImage = "";
+        var img = item.ProductImages.FirstOrDefault(x => x.IsDefault);
+        if (img != null)
+        {
+            strImage = img.Image;
+        }
+        else
+        {
+            strImage = item.Image;
+        }
+<div class="product-item @item.ProductCategory.Alias">
+    <div class="product discount product_filter">
+        <div class="product_image">
+            <img src="@strImage" alt="@item.Title">
+        </div>
+        <div class="favorite favorite_left"></div>
+        @if (item.Price > item.PriceSale)
+        {
+            var discount = item.Price - item.PriceSale;
+            <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-@WebBanHangOnline.Models.Common.Common.FormatNumber(discount, 0)K</span></div>
+        }
+        <div class="product_info">
+            <h6 class="product_name"><a href="/chi-tiet/@item.Alias-@item.Id">@item.Title</a></h6>
+            @if (item.PriceSale != item.Price)
+            {
+                <div class="product_price">@WebBanHangOnline.Models.Common.Common.FormatNumber(item.PriceSale, 2)K<span>@WebBanHangOnline.Models.Common.Common.FormatNumber(item.Price, 0)K</span></div>
+
+            }
+            else
+            {
+                <div class="product_price">@WebBanHangOnline.Models.Common.Common.FormatNumber(item.Price, 2)K</div>
+            }
+        </div>
+    </div>
+    <div class="red_button add_to_cart_button"><a href="#" data-id="@item.Id" class="btnAddToCart">add to cart</a></div>
+    <span id="quantity_value" hidden>1</span>
+
+</div>
+    }
+}

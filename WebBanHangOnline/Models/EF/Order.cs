@@ -10,6 +10,10 @@ namespace WebBanHangOnline.Models.EF
 	[Table("tbl_Order")]
 	public class Order:CommonAbstract
 	{
+		public Order()
+		{
+			this.OrderDetails = new HashSet<OrderDetail>();
+		}
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
@@ -21,8 +25,11 @@ namespace WebBanHangOnline.Models.EF
 		public string Phone { get; set; }
 		[Required]
 		public string Address { get; set; }
+		[Required]
+		public string Email { get; set; }
 		public decimal TotalAmount { get; set; }
 		public int Quantity { get; set; }
-		public ICollection<OrderDetail> OrderDetails { get; set; }
+		public int TypeOfPayment { get; set; }
+		public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 	}
 }
