@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebBanHangOnline.Models;
 
 namespace WebBanHangOnline.Controllers
 {
@@ -25,6 +26,21 @@ namespace WebBanHangOnline.Controllers
 			ViewBag.Message = "Your contact page.";
 
 			return View();
+		}
+
+		public ActionResult Refresh()
+		{
+			var item = new ThongKeStringViewModel();
+			ViewBag.visitors_online = HttpContext.Application["visitors_online"];
+			item.HomNay = HttpContext.Application["HomNay"].ToString();
+			item.HomQua = HttpContext.Application["HomQua"].ToString();
+			item.TuanNay = HttpContext.Application["TuanNay"].ToString();
+			item.TuanTruoc = HttpContext.Application["TuanTruoc"].ToString();
+			item.ThangNay = HttpContext.Application["ThangNay"].ToString();
+			item.ThangTruoc = HttpContext.Application["ThangTruoc"].ToString();
+			item.TatCa = HttpContext.Application["TatCa"].ToString();
+
+			return PartialView(item);
 		}
 	}
 }

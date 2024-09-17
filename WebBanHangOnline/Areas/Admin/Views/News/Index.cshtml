@@ -1,4 +1,8 @@
-﻿@model IEnumerable<WebBanHangOnline.Models.EF.News>
+﻿@model PagedList.IPagedList<WebBanHangOnline.Models.EF.News>
+
+@using PagedList.Mvc;
+@using PagedList;
+
 @{
     ViewBag.Title = "Danh sách tin tức";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -12,7 +16,7 @@
             <a href="/Admin/Home" class="nav-link">Trang chủ</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/Admin/Category" class="nav-link">@ViewBag.Title</a>
+            <a href="/Admin/News" class="nav-link">@ViewBag.Title</a>
         </li>
     </ul>
 }
@@ -21,7 +25,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Quản lý danh mục</h1>
+                <h1>Quản lý tin tức</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -43,9 +47,25 @@
 
             <div class="card-tools">
                 <a href="/Admin/News/Add" class="btn btn-primary">Thêm mới</a>
+                <a href="#" class="btn btn-danger" id="btnDeleteAll">Xóa nhiều</a>
             </div>
         </div>
         <div class="card-body">
+            <div class="row">
+                <div class="col-6 text-center">
+                    @using (Html.BeginForm("index", "News", FormMethod.Get, new { }))
+                    {
+                        <div class="input-group input-group-sm">
+                            @Html.TextBox("searchText", null ,new { @class = "form-control" })
+                            <span class="input-group-append">
+                                <button class="btn btn-info btn-flat">Tìm kiếm</button>
+                            </span>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -53,26 +73,34 @@
                         <th>Hình ảnh</th>
                         <th>Tiêu đề</th>
                         <th>Ngày tạo</th>
+                        <th class="text-center">Hiển thị</th>
                         <th>Thứ tự</th>
                         <th></th>
+                        <th><input type="checkbox" id="selectAll" /></th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (Model != null && Model.Any())
                     {
-
-                        var i = 1;
+                        var i = ((ViewBag.PageNumber - 1) * ViewBag.PageSize) + 1;
                         foreach (var item in Model)
                         {
+                            var strCheck = item.IsActive ? "<i class='fa fa-check text-success'></i>" : "<i class='fas fa-times text-danger'></i>";
+
+
                             <tr id="trow_@item.Id">
                                 <td>@i</td>
                                 <td><img src="@item.Image" width="80"></td>
                                 <td>@item.Title</td>
                                 <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                <td class="text-center">
+                                    <a href="#" data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a>
+                                </td>
                                 <td>
                                     <a href="/Admin/News/Edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
                                     <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
                                 </td>
+                                <td><input type="checkbox" class="cbkItem" value="@item.Id" /></td>
                             </tr>
                             i++;
                         }
@@ -86,6 +114,7 @@
                     }
                 </tbody>
             </table>
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
@@ -100,6 +129,56 @@
 @section scripts{
     <script>
         $(document).ready(function () {
+            $('body').on('click', '#btnDeleteAll', function (e) {
+                e.preventDefault();
+                var str = "";
+                var checkBox = $(this).parents('.card').find('tr td input:checkbox');
+                var i = 0;
+                checkBox.each(function () {
+                    var _id = $(this).val();
+                    if (this.checked) {
+                        if (i == 0) {
+                            str += _id;
+                        }
+                        else {
+                            str += "," + _id;
+                        }
+                        i++;
+                    }
+                });
+
+                if (str.length > 0) {
+                    var conf = confirm("Bạn có muốn xóa các bản ghi đã chọn không?");
+                    if (conf == true) {
+                        $.ajax({
+                            url: '/admin/news/deleteAll',
+                            type: 'POST',
+                            data: { ids: str },
+                            success: function (js) {
+                                if (js.success) {
+                                    location.reload();
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+
+
+            $('body').on('change', '#selectAll', function () {
+                var checkStatus = this.checked;
+                var checkBox = $(this).parents('.card-body').find('tr td input:checkbox');
+                checkBox.each(function () {
+                    this.checked = checkStatus;
+                    if (this.checked) {
+                        checkBox.attr('selected', 'checked');
+                    }
+                    else {
+                        checkBox.attr('selected', '');
+                    }
+                });
+            });
+
             $('body').on('click', '.btnDelete', function () {
                 var id = $(this).data("id");
                 var conf = confirm('Bạn có muốn xóa bản ghi này không');
@@ -108,13 +187,32 @@
                         url: '/Admin/News/Delete',
                         type: 'POST',
                         data: { id: id },
-                        success: function (rs) {
-                            if (rs.success) {
+                        success: function (js) {
+                            if (js.success) {
                                 $('#trow_' + id).remove();
                             }
                         }
                     });
                 }
+            });
+
+            $('body').on('click', '.btnActive', function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var id = $(this).data("id");
+                $.ajax({
+                    url: '/Admin/News/IsActive',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (js) {
+                        if (js.isActive && js.success) {
+                            btn.html("<i class='fa fa-check text-success'></i>");
+                        }
+                        else {
+                            btn.html("<i class='fas fa-times text-danger'></i>");
+                        }
+                    }
+                });
             });
         })
     </script>
