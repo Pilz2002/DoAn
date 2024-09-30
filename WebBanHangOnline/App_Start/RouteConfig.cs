@@ -61,6 +61,38 @@ namespace WebBanHangOnline
 				namespaces: new[] { "WebBanHangOnline.Controllers" }
 			);
 
+			//tin tuc
+			routes.MapRoute(
+				name: "news",
+				url: "tin-tuc",
+				defaults: new { controller = "News", action = "Index" },
+				namespaces: new[] { "WebBanHangOnline.Controllers" }
+			);
+
+			//chi tiet tin tuc
+			routes.MapRoute(
+				name: "detailNews",
+				url: "{alias}-n{id}",
+				defaults: new { controller = "News", action = "Detail", id = UrlParameter.Optional, alias = UrlParameter.Optional },
+				namespaces: new[] { "WebBanHangOnline.Controllers" }
+			);
+
+			//chi tiet bai viet	
+			routes.MapRoute(
+				name: "detailPosts",
+				url: "post/{alias}",
+				defaults: new { controller = "Article", action = "Index", alias = UrlParameter.Optional },
+				namespaces: new[] { "WebBanHangOnline.Controllers" }
+			);
+
+			//return sau khi thanh toan
+			routes.MapRoute(
+				name: "vnpay_return",
+				url: "vnpay_return",
+				defaults: new { controller = "ShoppingCart", action = "VnpayReturn"},
+				namespaces: new[] { "WebBanHangOnline.Controllers" }
+			);
+
 			routes.MapRoute(
 				name: "Default",
 				url: "{controller}/{action}/{id}",

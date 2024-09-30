@@ -27,9 +27,12 @@ namespace WebBanHangOnline.Models.EF
 		public string Address { get; set; }
 		[Required]
 		public string Email { get; set; }
+		public string TrangThai { get; set; }
 		public decimal TotalAmount { get; set; }
 		public int Quantity { get; set; }
 		public int TypeOfPayment { get; set; }
+		public string CustomerId { get; set; }
+
 		public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 	}
 }

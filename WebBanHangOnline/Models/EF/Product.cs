@@ -15,6 +15,7 @@ namespace WebBanHangOnline.Models.EF
 		{
 			this.ProductImages = new HashSet<ProductImage>();
 			this.OrderDetails = new HashSet<OrderDetail>();
+			this.ReviewProducts = new HashSet<ReviewProduct>();
 		}
 
 		[Key]
@@ -28,6 +29,7 @@ namespace WebBanHangOnline.Models.EF
 		[AllowHtml]
 		public string Detail { get; set; }
 		public string Image { get; set; }
+		public decimal OriginalPrice { get; set; }
 		public decimal Price { get; set; }
 		public decimal PriceSale { get; set; }
 		public int Quantity { get; set; }
@@ -44,6 +46,7 @@ namespace WebBanHangOnline.Models.EF
 		public bool IsActive { get; set; }
 		public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 		public virtual ICollection<ProductImage> ProductImages { get; set; }
+		public virtual ICollection<ReviewProduct> ReviewProducts { get; set; }
 
 	}
 }

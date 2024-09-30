@@ -19,7 +19,7 @@ namespace WebBanHangOnline.Controllers
 
         public ActionResult MenuTop()
         {
-            var items = _db.Categories.OrderBy(x => x.Position).ToList();
+            var items = _db.Categories.OrderBy(x => x.Position).Where(x=>x.IsActive == true).ToList();
             return PartialView("_MenuTop",items);
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,13 +9,23 @@ using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    public class PostController : Controller
+	[Authorize(Roles = "Admin,Employee")]
+	public class PostController : Controller
     {
 		private readonly ApplicationDbContext _db = new ApplicationDbContext();
 		// GET: Admin/Post
-		public ActionResult Index()
+		public ActionResult Index(int? page)
         {
-			var items = _db.Posts.OrderByDescending(x => x.Id).ToList();
+			var pageSize = 10;
+			if (page == null)
+			{
+				page = 1;
+			}
+			IEnumerable<Post>items = _db.Posts.OrderByDescending(x => x.Id);
+			var pageNumber = page.HasValue ? Convert.ToInt32(page) : 1;
+			items = items.ToPagedList(pageNumber, pageSize);
+			ViewBag.PageNumber = pageNumber;
+			ViewBag.PageSize = pageSize;
 			return View(items);
 		}
 

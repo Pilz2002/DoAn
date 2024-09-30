@@ -9,6 +9,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
     public class HomeController : Controller
     {
         // GET: Admin/Home
+        [Authorize(Roles ="Admin,Employee")]
         public ActionResult Index()
         {
             return View();

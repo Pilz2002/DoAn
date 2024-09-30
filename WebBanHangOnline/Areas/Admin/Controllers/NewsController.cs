@@ -10,21 +10,22 @@ using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    public class NewsController : Controller
+	[Authorize(Roles = "Admin,Employee")]
+	public class NewsController : Controller
     {
 		private readonly ApplicationDbContext _db = new ApplicationDbContext();
 		// GET: Admin/News
 		public ActionResult Index(int? page,string searchText)
         {
-			var pageSize = 10;
-			if(page == null)
-			{
-				page = 1;
-			}
 			IEnumerable<News> items = _db.News.OrderByDescending(x => x.Id);
 			if(!string.IsNullOrEmpty(searchText))
 			{
 				items = items.Where(x => x.Alias.Contains(searchText) || x.Title.Contains(searchText));
+			}
+			var pageSize = 10;
+			if(page == null)
+			{
+				page = 1;
 			}
 			var pageNumber = page.HasValue ? Convert.ToInt32(page) : 1;
             items = items.ToPagedList(pageNumber,pageSize);
