@@ -4,14 +4,36 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
+using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Controllers
 {
 	public class HomeController : Controller
 	{
+		private readonly ApplicationDbContext _db = new ApplicationDbContext();
 		public ActionResult Index()
 		{
+			ViewBag.Title = "Kappa Shop";
+			ViewBag.SeoDescription = "Kappa Shop online";
 			return View();
+		}
+
+		public ActionResult Partial_Subscribe()
+		{
+			return PartialView();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Subscribe(Subscribe req)
+		{
+			if(ModelState.IsValid)
+			{
+				_db.Subscribes.Add(new Subscribe { Email = req.Email, CreatedDate = DateTime.Now });
+				_db.SaveChanges();
+				return Json(true);
+			}
+			return View("Partial_Subscribe");
 		}
 
 		public ActionResult About()
@@ -39,7 +61,6 @@ namespace WebBanHangOnline.Controllers
 			item.ThangNay = HttpContext.Application["ThangNay"].ToString();
 			item.ThangTruoc = HttpContext.Application["ThangTruoc"].ToString();
 			item.TatCa = HttpContext.Application["TatCa"].ToString();
-
 			return PartialView(item);
 		}
 	}

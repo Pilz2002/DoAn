@@ -1,0 +1,17 @@
+﻿@model WebBanHangOnline.Models.ThongKeStringViewModel
+@if (Model != null)
+{
+    <div class="thongke">
+        <p>Số lượt truy câp</p>
+        <table class="table">
+            <tr>
+                <td>Số lượt người đã truy cập trang web:</td>
+                <td>@Model.TatCa</td>
+            </tr>
+            <tr>
+                <td>Số người online:</td>
+                <td>@ViewBag.visitors_online</td>
+            </tr>
+        </table>
+    </div>
+}

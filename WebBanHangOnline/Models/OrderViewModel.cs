@@ -15,6 +15,8 @@ namespace WebBanHangOnline.Models
 		[Required]
 		public string Address { get; set; }
 		public int TypeOfPayment { get; set; }
+		public int TypePaymentVN { get; set; }
 		public string Email { get; set; }
+		public int CustomerId { get; set; }
 	}
 }

@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "VnpayReturn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col product_section clearfix">
+            <!-- Breadcrumbs -->
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active"><a href="/"><i class="fa fa-angle-right" aria-hidden="true"></i>Thanh toán</a></li>
+                </ul>
+            </div>
+
+            <div class="row">
+                <h2>@ViewBag.InnerText</h2>
+                <p>@ViewBag.MaThanhToan<br/></p>  
+                <p>@ViewBag.MaGiaoDich<br/></p> 
+                <p>@ViewBag.TongTien<br/></p> 
+                <p>@ViewBag.NganHang<br/></p> 
+            </div>
+        </div>
+    </div>
+</div>
+
+

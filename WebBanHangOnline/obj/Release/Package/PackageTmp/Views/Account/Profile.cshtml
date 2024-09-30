@@ -1,0 +1,56 @@
+﻿@model WebBanHangOnline.Models.CreateAccountViewModel
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css" />
+<style>
+    .infor_section_container {
+        margin-top: 180px
+    }
+
+    .title-infor {
+        font-size: 24px;
+        border-bottom: 1px solid;
+        padding: 15px 0;
+        margin-bottom: 25px;
+    }
+
+    .row-item-infor {
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container infor_section_container">
+    <div class="row">
+        <h2 class="title-infor"> Thông tin cá nhân</h2>
+        <div class="col-md-12">
+          
+                @using (Html.BeginForm("PostProfile", "Account"))
+                {
+                    @Html.ValidationSummary(false)
+                    @Html.AntiForgeryToken()
+                    <div class="form-group row-item-infor">
+                        <label>Fullname</label>
+                        <input type="text" class="form-control" value="@Model.Fullname" name="Fullname"/>
+                    </div>
+                    <div class="form-group row-item-infor">
+                        <label>Username</label>
+                        <input type="text" class="form-control" value="@Model.Username" name="Username" readonly />
+                    </div>
+                    <div class="form-group row-item-infor">
+                        <label>Phone</label>
+                        <input type="text" class="form-control" value="@Model.Phone" name="Phone" />
+                    </div>
+                    <div class="form-group row-item-infor">
+                        <label>Email</label>
+                        <input type="text" class="form-control" value="@Model.Email" name="Email" readonly />
+                    </div>
+                    <div class="form-group row-item-infor">
+                        <button type="submit" class="btn btn-success">Cập nhật</button>
+                    </div>
+                }
+            
+        </div>
+    </div>
+</div>

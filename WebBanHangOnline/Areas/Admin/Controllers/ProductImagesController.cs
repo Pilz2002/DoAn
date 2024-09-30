@@ -7,8 +7,10 @@ using WebBanHangOnline.Models;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    public class ProductImagesController : Controller
+	[Authorize(Roles = "Admin,Employee")]
+	public class ProductImagesController : Controller
     {
+
         private readonly ApplicationDbContext _db = new ApplicationDbContext(); 
         // GET: Admin/ProductImages
         public ActionResult Index(int id)
